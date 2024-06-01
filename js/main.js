@@ -1,35 +1,105 @@
-let playGame = confirm("Want to play Rock, Paper, Scissors?");
-while (playGame) {
-    const playerChoice = prompt("Enter rock, paper, or scissors");
-    if (playerChoice) {
-        const playerOne = playerChoice.trim().toLowerCase();
-        if (
-            playerOne === "rock" || 
-            playerOne === "paper" || 
-            playerOne === "scissors") {
-            let computerChoice = Math.floor(Math.random() * 3 + 1);
-            let computer = computerChoice === 1 ? "rock" 
-                : computerChoice === 2 ? "paper" 
-                : "scissors";
-            let result = 
-            playerOne === computer 
-                ? "It's a tie!" 
-                : playerOne === "rock" && computer === "paper"
-                ? 'playerOne: ' + playerOne + ' computer: ' + computer + '\nComputer wins!'
-                : playerOne === "paper" && computer === "scissors"
-                ? 'playerOne: ' + playerOne + ' computer: ' + computer + '\nComputer wins!'
-                : playerOne === "scissors" && computer === "rock"
-                ? 'playerOne: ' + playerOne + ' computer: ' + computer + '\nComputer wins!'
-                : 'playerOne: ' + playerOne + ' computer: ' + computer + '\nPlayerOne wins!';
-            alert(result);
-            playGame = confirm("Want to play again?");
-            if(!playGame) alert("Goodbye!");
-            continue;
-        } else {
-            alert("Invalid choice, please try again");
-        }
-    } else {
-        alert("I guess not, maybe next time!")
+const initgame = () => {
+    const startGame = confirm("Want to play Rock, Paper, Scissors?");
+    startGame ? playGame() : alert("I guess not, maybe next time!");
+};
+
+
+
+
+
+const playGame = () => { 
+while (true) {
+    let playerChoice = getPlayerChoice();
+    playerChoice = formatPayerChoice(playerChoice);
+    if (playerChoice === " ") {
+        invalidChoice();
+        continue;
+    }
+    if(!playerChoice) {
+        decidedNotToPlay();
         break;
     }
-} 
+    playerChoice = evaluatePlayerChoice(playerChoice);
+    if (!playerChoice) {
+        invalidChoice();
+        continue;
+    }
+    
+    const computerChoice = getComputerChoice();
+    const result = determineWinner(playerChoice, computerChoice);
+    displayResult(result)
+        if (askToPlayAgain()) {
+            continue;
+        } else {
+            thanksForPlaying();
+            break;
+        }
+    }
+};
+    
+const getPlayerChoice = () => {
+    return prompt("Please enter rock, paper, or scissors?");
+};
+
+const formatPayerChoice = (playerChoice) => {
+    if (playerChoice || playerChoice === " ") {
+        return playerChoice.trim().toLowerCase();
+    } else {
+        return false;
+    }
+};
+
+const decidedNotToPlay = () => {
+    alert("I guess not, maybe next time!");
+};
+
+const evaluatePlayerChoice = (playerChoice) => {
+    if (
+        playerChoice === "rock" ||
+        playerChoice === "paper" ||
+        playerChoice === "scissors"
+    ) {
+        return playerChoice;
+    } else {
+        return false;
+    }
+};
+
+const invalidChoice = () => {
+    alert("Invalid choice, please try again");
+};
+
+const getComputerChoice = () => {
+    const randomNum = Math.floor(Math.random() * 3);
+    const rpsArray = ["rock", "paper", "scissors"];
+    return rpsArray[randomNum];
+};
+
+const determineWinner = (player, computer) => {
+    const winner = 
+        player === computer
+            ? "It's a tie!" 
+            : player === "rock" && computer === "paper"
+            ? 'playerOne: ' + player + ' computer: ' + computer + '\nComputer wins!'
+            : player === "paper" && computer === "scissors"
+            ? 'playerOne: ' + player + ' computer: ' + computer + '\nComputer wins!'
+            : player === "scissors" && computer === "rock"
+            ? 'playerOne: ' + player + ' computer: ' + computer + '\nComputer wins!'
+            : 'playerOne: ' + player + ' computer: ' + computer + '\nPlayerOne wins!';
+
+            return winner;
+};
+
+const displayResult = (result) => {
+    alert(result);
+};
+
+const askToPlayAgain = () => {
+    return confirm ("Would you like to play again?");
+};
+
+const thanksForPlaying = () => {
+    alert("Thanks for playing!");
+};
+
+initgame();

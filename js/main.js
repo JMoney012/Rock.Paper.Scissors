@@ -1,8 +1,8 @@
 let playGame = confirm("Want to play Rock, Paper, Scissors?");
-if (playGame) {
-    let playerChoice = prompt("Enter rock, paper, or scissors");
+while (playGame) {
+    const playerChoice = prompt("Enter rock, paper, or scissors");
     if (playerChoice) {
-        let playerOne = playerChoice.trim().toLowerCase();
+        const playerOne = playerChoice.trim().toLowerCase();
         if (
             playerOne === "rock" || 
             playerOne === "paper" || 
@@ -22,14 +22,14 @@ if (playGame) {
                 ? 'playerOne: ' + playerOne + ' computer: ' + computer + '\nComputer wins!'
                 : 'playerOne: ' + playerOne + ' computer: ' + computer + '\nPlayerOne wins!';
             alert(result);
-            let playAgain = confirm("Want to play again?");
-            playAgain ? location.reload() : alert("Goodbye!");
+            playGame = confirm("Want to play again?");
+            if(!playGame) alert("Goodbye!");
+            continue;
         } else {
             alert("Invalid choice, please try again");
         }
     } else {
         alert("I guess not, maybe next time!")
+        break;
     }
-} else {
-    alert("No problem, Goodbye!");
-}
+} 
